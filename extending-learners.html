@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6.1 Adding new Learners | mlr3 book</title>
+  <meta name="description" content="6.1 Adding new Learners | mlr3 book" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6.1 Adding new Learners | mlr3 book" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://mlr3book.mlr-org.com/" />
+  <meta property="og:image" content="https://mlr3book.mlr-org.com/block.png" />
+  
+  <meta name="github-repo" content="mlr-org/mlr3book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6.1 Adding new Learners | mlr3 book" />
+  
+  
+  <meta name="twitter:image" content="https://mlr3book.mlr-org.com/block.png" />
+
+<meta name="author" content="Michel Lang" />
+<meta name="author" content="Patrick Schratz" />
+<meta name="author" content="Martin Binder" />
+<meta name="author" content="Florian Pfisterer" />
+<meta name="author" content="Jakob Richter" />
+<meta name="author" content="Nicholas G. Reich" />
+<meta name="author" content="Bernd Bischl" />
+
+
+<meta name="date" content="2020-02-24" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<link rel="prev" href="extending.html"/>
+<link rel="next" href="extending-pipeops.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">mlr3 Manual <img src='https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png' width=30 /></a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Quickstart</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction and Overview</a></li>
+<li class="chapter" data-level="2" data-path="basics.html"><a href="basics.html"><i class="fa fa-check"></i><b>2</b> Basics</a><ul>
+<li class="chapter" data-level="2.1" data-path="r6.html"><a href="r6.html"><i class="fa fa-check"></i><b>2.1</b> Quick R6 Intro for Beginners</a></li>
+<li class="chapter" data-level="2.2" data-path="tasks.html"><a href="tasks.html"><i class="fa fa-check"></i><b>2.2</b> Tasks</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="tasks.html"><a href="tasks.html#tasks-types"><i class="fa fa-check"></i><b>2.2.1</b> Task Types</a></li>
+<li class="chapter" data-level="2.2.2" data-path="tasks.html"><a href="tasks.html#tasks-creation"><i class="fa fa-check"></i><b>2.2.2</b> Task Creation</a></li>
+<li class="chapter" data-level="2.2.3" data-path="tasks.html"><a href="tasks.html#tasks-predefined"><i class="fa fa-check"></i><b>2.2.3</b> Predefined tasks</a></li>
+<li class="chapter" data-level="2.2.4" data-path="tasks.html"><a href="tasks.html#tasks-api"><i class="fa fa-check"></i><b>2.2.4</b> Task API</a><ul>
+<li class="chapter" data-level="2.2.4.1" data-path="tasks.html"><a href="tasks.html#tasks-retrieving"><i class="fa fa-check"></i><b>2.2.4.1</b> Retrieving Data</a></li>
+<li class="chapter" data-level="2.2.4.2" data-path="tasks.html"><a href="tasks.html#tasks-roles"><i class="fa fa-check"></i><b>2.2.4.2</b> Roles (Rows and Columns)</a></li>
+<li class="chapter" data-level="2.2.4.3" data-path="tasks.html"><a href="tasks.html#tasks-mutators"><i class="fa fa-check"></i><b>2.2.4.3</b> Task Mutators</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2.5" data-path="tasks.html"><a href="tasks.html#autoplot-task"><i class="fa fa-check"></i><b>2.2.5</b> Plotting Tasks</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="learners.html"><a href="learners.html"><i class="fa fa-check"></i><b>2.3</b> Learners</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="learners.html"><a href="learners.html#learners-predefined"><i class="fa fa-check"></i><b>2.3.1</b> Predefined Learners</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="train-predict.html"><a href="train-predict.html"><i class="fa fa-check"></i><b>2.4</b> Train and Predict</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="train-predict.html"><a href="train-predict.html#train-predict-objects"><i class="fa fa-check"></i><b>2.4.1</b> Creating Task and Learner Objects</a></li>
+<li class="chapter" data-level="2.4.2" data-path="train-predict.html"><a href="train-predict.html#split-data"><i class="fa fa-check"></i><b>2.4.2</b> Setting up the train/test splits of the data</a></li>
+<li class="chapter" data-level="2.4.3" data-path="train-predict.html"><a href="train-predict.html#training"><i class="fa fa-check"></i><b>2.4.3</b> Training the learner</a></li>
+<li class="chapter" data-level="2.4.4" data-path="train-predict.html"><a href="train-predict.html#predicting"><i class="fa fa-check"></i><b>2.4.4</b> Predicting</a></li>
+<li class="chapter" data-level="2.4.5" data-path="train-predict.html"><a href="train-predict.html#predict-type"><i class="fa fa-check"></i><b>2.4.5</b> Changing the Predict Type</a></li>
+<li class="chapter" data-level="2.4.6" data-path="train-predict.html"><a href="train-predict.html#autoplot-prediction"><i class="fa fa-check"></i><b>2.4.6</b> Plotting Predictions</a></li>
+<li class="chapter" data-level="2.4.7" data-path="train-predict.html"><a href="train-predict.html#measure"><i class="fa fa-check"></i><b>2.4.7</b> Performance assessment</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="resampling.html"><a href="resampling.html"><i class="fa fa-check"></i><b>2.5</b> Resampling</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="resampling.html"><a href="resampling.html#resampling-settings"><i class="fa fa-check"></i><b>2.5.1</b> Settings</a></li>
+<li class="chapter" data-level="2.5.2" data-path="resampling.html"><a href="resampling.html#resampling-inst"><i class="fa fa-check"></i><b>2.5.2</b> Instantiation</a></li>
+<li class="chapter" data-level="2.5.3" data-path="resampling.html"><a href="resampling.html#resampling-exec"><i class="fa fa-check"></i><b>2.5.3</b> Execution</a></li>
+<li class="chapter" data-level="2.5.4" data-path="resampling.html"><a href="resampling.html#resamp-custom"><i class="fa fa-check"></i><b>2.5.4</b> Custom resampling</a></li>
+<li class="chapter" data-level="2.5.5" data-path="resampling.html"><a href="resampling.html#autoplot-resampleresult"><i class="fa fa-check"></i><b>2.5.5</b> Plotting Resample Results</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="benchmarking.html"><a href="benchmarking.html"><i class="fa fa-check"></i><b>2.6</b> Benchmarking</a><ul>
+<li class="chapter" data-level="2.6.1" data-path="benchmarking.html"><a href="benchmarking.html#bm-design"><i class="fa fa-check"></i><b>2.6.1</b> Design Creation</a></li>
+<li class="chapter" data-level="2.6.2" data-path="benchmarking.html"><a href="benchmarking.html#bm-exec"><i class="fa fa-check"></i><b>2.6.2</b> Execution and Aggregation of Results</a></li>
+<li class="chapter" data-level="2.6.3" data-path="benchmarking.html"><a href="benchmarking.html#autoplot-benchmarkresult"><i class="fa fa-check"></i><b>2.6.3</b> Plotting Benchmark Results</a></li>
+<li class="chapter" data-level="2.6.4" data-path="benchmarking.html"><a href="benchmarking.html#bm-resamp"><i class="fa fa-check"></i><b>2.6.4</b> Extracting ResampleResults</a></li>
+<li class="chapter" data-level="2.6.5" data-path="benchmarking.html"><a href="benchmarking.html#converting-and-merging-resampleresults"><i class="fa fa-check"></i><b>2.6.5</b> Converting and Merging ResampleResults</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="binary-classification.html"><a href="binary-classification.html"><i class="fa fa-check"></i><b>2.7</b> Binary classification</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="binary-classification.html"><a href="binary-classification.html#binary-roc"><i class="fa fa-check"></i><b>2.7.1</b> ROC Curve and Thresholds</a></li>
+<li class="chapter" data-level="2.7.2" data-path="binary-classification.html"><a href="binary-classification.html#threshold-tuning"><i class="fa fa-check"></i><b>2.7.2</b> Threshold Tuning</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="optimization.html"><a href="optimization.html"><i class="fa fa-check"></i><b>3</b> Model Optimization</a><ul>
+<li class="chapter" data-level="3.1" data-path="tuning.html"><a href="tuning.html"><i class="fa fa-check"></i><b>3.1</b> Hyperparameter Tuning</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="tuning.html"><a href="tuning.html#tuning-optimization"><i class="fa fa-check"></i><b>3.1.1</b> The <code>TuningInstance</code> Class</a></li>
+<li class="chapter" data-level="3.1.2" data-path="tuning.html"><a href="tuning.html#the-tuner-class"><i class="fa fa-check"></i><b>3.1.2</b> The <code>Tuner</code> Class</a></li>
+<li class="chapter" data-level="3.1.3" data-path="tuning.html"><a href="tuning.html#tuning-triggering"><i class="fa fa-check"></i><b>3.1.3</b> Triggering the Tuning</a></li>
+<li class="chapter" data-level="3.1.4" data-path="tuning.html"><a href="tuning.html#autotuner"><i class="fa fa-check"></i><b>3.1.4</b> Automating the Tuning</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="fs.html"><a href="fs.html"><i class="fa fa-check"></i><b>3.2</b> Feature Selection / Filtering</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="fs.html"><a href="fs.html#fs-filter"><i class="fa fa-check"></i><b>3.2.1</b> Filters</a></li>
+<li class="chapter" data-level="3.2.2" data-path="fs.html"><a href="fs.html#fs-calc"><i class="fa fa-check"></i><b>3.2.2</b> Calculating filter values</a></li>
+<li class="chapter" data-level="3.2.3" data-path="fs.html"><a href="fs.html#fs-var-imp-filters"><i class="fa fa-check"></i><b>3.2.3</b> Variable Importance Filters</a></li>
+<li class="chapter" data-level="3.2.4" data-path="fs.html"><a href="fs.html#fs-ensemble"><i class="fa fa-check"></i><b>3.2.4</b> Ensemble Methods</a></li>
+<li class="chapter" data-level="3.2.5" data-path="fs.html"><a href="fs.html#fs-wrapper"><i class="fa fa-check"></i><b>3.2.5</b> Wrapper Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="nested-resampling.html"><a href="nested-resampling.html"><i class="fa fa-check"></i><b>3.3</b> Nested Resampling</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="nested-resampling.html"><a href="nested-resampling.html#nested-resamp-exec"><i class="fa fa-check"></i><b>3.3.1</b> Execution</a></li>
+<li class="chapter" data-level="3.3.2" data-path="nested-resampling.html"><a href="nested-resampling.html#nested-resamp-eval"><i class="fa fa-check"></i><b>3.3.2</b> Evaluation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="pipelines.html"><a href="pipelines.html"><i class="fa fa-check"></i><b>4</b> Pipelines</a><ul>
+<li class="chapter" data-level="4.1" data-path="pipe-pipeops.html"><a href="pipe-pipeops.html"><i class="fa fa-check"></i><b>4.1</b> The Building Blocks: PipeOps</a></li>
+<li class="chapter" data-level="4.2" data-path="pipe-operator.html"><a href="pipe-operator.html"><i class="fa fa-check"></i><b>4.2</b> The Pipeline Operator: <code>%&gt;&gt;%</code></a></li>
+<li class="chapter" data-level="4.3" data-path="pipe-nodes-edges-graphs.html"><a href="pipe-nodes-edges-graphs.html"><i class="fa fa-check"></i><b>4.3</b> Nodes, Edges and Graphs</a></li>
+<li class="chapter" data-level="4.4" data-path="pipe-modeling.html"><a href="pipe-modeling.html"><i class="fa fa-check"></i><b>4.4</b> Modeling</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="pipe-modeling.html"><a href="pipe-modeling.html#pipe-hyperpars"><i class="fa fa-check"></i><b>4.4.1</b> Setting Hyperparameters</a></li>
+<li class="chapter" data-level="4.4.2" data-path="pipe-modeling.html"><a href="pipe-modeling.html#pipe-tuning"><i class="fa fa-check"></i><b>4.4.2</b> Tuning</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html"><i class="fa fa-check"></i><b>4.5</b> Non-Linear Graphs</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html#pipe-model-ensembles-branching-copying"><i class="fa fa-check"></i><b>4.5.1</b> Branching &amp; Copying</a></li>
+<li class="chapter" data-level="4.5.2" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html#pipe-model-ensembles"><i class="fa fa-check"></i><b>4.5.2</b> Model Ensembles</a><ul>
+<li class="chapter" data-level="4.5.2.1" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html#pipe-model-ensembles-bagging"><i class="fa fa-check"></i><b>4.5.2.1</b> Bagging</a></li>
+<li class="chapter" data-level="4.5.2.2" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html#pipe-model-ensembles-stacking"><i class="fa fa-check"></i><b>4.5.2.2</b> Stacking</a></li>
+<li class="chapter" data-level="4.5.2.3" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html#multilevel-stacking"><i class="fa fa-check"></i><b>4.5.2.3</b> Multilevel Stacking</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="pipe-special-ops.html"><a href="pipe-special-ops.html"><i class="fa fa-check"></i><b>4.6</b> Special Operators</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="pipe-special-ops.html"><a href="pipe-special-ops.html#imputation-pipeopimpute"><i class="fa fa-check"></i><b>4.6.1</b> Imputation: <code>PipeOpImpute</code></a></li>
+<li class="chapter" data-level="4.6.2" data-path="pipe-special-ops.html"><a href="pipe-special-ops.html#feature-engineering-pipeopmutate"><i class="fa fa-check"></i><b>4.6.2</b> Feature Engineering: <code>PipeOpMutate</code></a></li>
+<li class="chapter" data-level="4.6.3" data-path="pipe-special-ops.html"><a href="pipe-special-ops.html#training-on-data-subsets-pipeopchunk"><i class="fa fa-check"></i><b>4.6.3</b> Training on data subsets: <code>PipeOpChunk</code></a></li>
+<li class="chapter" data-level="4.6.4" data-path="pipe-special-ops.html"><a href="pipe-special-ops.html#feature-selection-pipeopfilter-and-pipeopselect"><i class="fa fa-check"></i><b>4.6.4</b> Feature Selection: <code>PipeOpFilter</code> and <code>PipeOpSelect</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html"><i class="fa fa-check"></i><b>4.7</b> In-depth look into mlr3pipelines</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#whats-the-point"><i class="fa fa-check"></i><b>4.7.1</b> What’s the Point</a></li>
+<li class="chapter" data-level="4.7.2" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#pipeop-pipeline-operators"><i class="fa fa-check"></i><b>4.7.2</b> <code>PipeOp</code>: Pipeline Operators</a><ul>
+<li class="chapter" data-level="4.7.2.1" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#why-the-state"><i class="fa fa-check"></i><b>4.7.2.1</b> Why the <code>$state</code></a></li>
+<li class="chapter" data-level="4.7.2.2" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#where-to-get-pipeops"><i class="fa fa-check"></i><b>4.7.2.2</b> Where to Get <code>PipeOp</code>s</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7.3" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#pipeop-channels"><i class="fa fa-check"></i><b>4.7.3</b> PipeOp Channels</a><ul>
+<li class="chapter" data-level="4.7.3.1" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#input-channels"><i class="fa fa-check"></i><b>4.7.3.1</b> Input Channels</a></li>
+<li class="chapter" data-level="4.7.3.2" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#output-channels"><i class="fa fa-check"></i><b>4.7.3.2</b> Output Channels</a></li>
+<li class="chapter" data-level="4.7.3.3" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#channel-configuration"><i class="fa fa-check"></i><b>4.7.3.3</b> Channel Configuration</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7.4" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#graph-networks-of-pipeops"><i class="fa fa-check"></i><b>4.7.4</b> <code>Graph</code>: Networks of <code>PipeOp</code>s</a><ul>
+<li class="chapter" data-level="4.7.4.1" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#basics-1"><i class="fa fa-check"></i><b>4.7.4.1</b> Basics</a></li>
+<li class="chapter" data-level="4.7.4.2" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#networks"><i class="fa fa-check"></i><b>4.7.4.2</b> Networks</a></li>
+<li class="chapter" data-level="4.7.4.3" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#syntactic-sugar"><i class="fa fa-check"></i><b>4.7.4.3</b> Syntactic Sugar</a></li>
+<li class="chapter" data-level="4.7.4.4" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#pipeop-ids-and-id-name-clashes"><i class="fa fa-check"></i><b>4.7.4.4</b> <code>PipeOp</code> IDs and ID Name Clashes</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7.5" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#learners-in-graphs-graphs-in-learners"><i class="fa fa-check"></i><b>4.7.5</b> Learners in Graphs, Graphs in Learners</a><ul>
+<li class="chapter" data-level="4.7.5.1" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#pipeoplearner"><i class="fa fa-check"></i><b>4.7.5.1</b> <code>PipeOpLearner</code></a></li>
+<li class="chapter" data-level="4.7.5.2" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#graphlearner"><i class="fa fa-check"></i><b>4.7.5.2</b> <code>GraphLearner</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4.7.6" data-path="in-depth-pipelines.html"><a href="in-depth-pipelines.html#hyperparameters"><i class="fa fa-check"></i><b>4.7.6</b> Hyperparameters</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="technical.html"><a href="technical.html"><i class="fa fa-check"></i><b>5</b> Technical</a><ul>
+<li class="chapter" data-level="5.1" data-path="parallelization.html"><a href="parallelization.html"><i class="fa fa-check"></i><b>5.1</b> Parallelization</a></li>
+<li class="chapter" data-level="5.2" data-path="error-handling.html"><a href="error-handling.html"><i class="fa fa-check"></i><b>5.2</b> Error Handling</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="error-handling.html"><a href="error-handling.html#encapsulation"><i class="fa fa-check"></i><b>5.2.1</b> Encapsulation</a></li>
+<li class="chapter" data-level="5.2.2" data-path="error-handling.html"><a href="error-handling.html#fallback-learners"><i class="fa fa-check"></i><b>5.2.2</b> Fallback learners</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="backends.html"><a href="backends.html"><i class="fa fa-check"></i><b>5.3</b> Database Backends</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="backends.html"><a href="backends.html#use-case-nyc-flights"><i class="fa fa-check"></i><b>5.3.1</b> Use Case: NYC Flights</a></li>
+<li class="chapter" data-level="5.3.2" data-path="backends.html"><a href="backends.html#preprocessing-with-dplyr"><i class="fa fa-check"></i><b>5.3.2</b> Preprocessing with <code>dplyr</code></a></li>
+<li class="chapter" data-level="5.3.3" data-path="backends.html"><a href="backends.html#databackenddplyr"><i class="fa fa-check"></i><b>5.3.3</b> DataBackendDplyr</a></li>
+<li class="chapter" data-level="5.3.4" data-path="backends.html"><a href="backends.html#model-fitting"><i class="fa fa-check"></i><b>5.3.4</b> Model fitting</a></li>
+<li class="chapter" data-level="5.3.5" data-path="backends.html"><a href="backends.html#cleanup"><i class="fa fa-check"></i><b>5.3.5</b> Cleanup</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="paradox.html"><a href="paradox.html"><i class="fa fa-check"></i><b>5.4</b> Parameters (using <code>paradox</code>)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="paradox.html"><a href="paradox.html#reference-based-objects"><i class="fa fa-check"></i><b>5.4.1</b> Reference Based Objects</a></li>
+<li class="chapter" data-level="5.4.2" data-path="paradox.html"><a href="paradox.html#defining-a-parameter-space"><i class="fa fa-check"></i><b>5.4.2</b> Defining a Parameter Space</a><ul>
+<li class="chapter" data-level="5.4.2.1" data-path="paradox.html"><a href="paradox.html#single-parameters"><i class="fa fa-check"></i><b>5.4.2.1</b> Single Parameters</a></li>
+<li class="chapter" data-level="5.4.2.2" data-path="paradox.html"><a href="paradox.html#parameter-sets"><i class="fa fa-check"></i><b>5.4.2.2</b> Parameter Sets</a></li>
+<li class="chapter" data-level="5.4.2.3" data-path="paradox.html"><a href="paradox.html#vector-parameters"><i class="fa fa-check"></i><b>5.4.2.3</b> Vector Parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4.3" data-path="paradox.html"><a href="paradox.html#parameter-sampling"><i class="fa fa-check"></i><b>5.4.3</b> Parameter Sampling</a><ul>
+<li class="chapter" data-level="5.4.3.1" data-path="paradox.html"><a href="paradox.html#parameter-designs"><i class="fa fa-check"></i><b>5.4.3.1</b> Parameter Designs</a></li>
+<li class="chapter" data-level="5.4.3.2" data-path="paradox.html"><a href="paradox.html#grid-design"><i class="fa fa-check"></i><b>5.4.3.2</b> Grid Design</a></li>
+<li class="chapter" data-level="5.4.3.3" data-path="paradox.html"><a href="paradox.html#random-sampling"><i class="fa fa-check"></i><b>5.4.3.3</b> Random Sampling</a></li>
+<li class="chapter" data-level="5.4.3.4" data-path="paradox.html"><a href="paradox.html#generalized-sampling-the-sampler-class"><i class="fa fa-check"></i><b>5.4.3.4</b> Generalized Sampling: The <code>Sampler</code> Class</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4.4" data-path="paradox.html"><a href="paradox.html#parameter-transformation"><i class="fa fa-check"></i><b>5.4.4</b> Parameter Transformation</a><ul>
+<li class="chapter" data-level="5.4.4.1" data-path="paradox.html"><a href="paradox.html#transformation-between-types"><i class="fa fa-check"></i><b>5.4.4.1</b> Transformation between Types</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="logging.html"><a href="logging.html"><i class="fa fa-check"></i><b>5.5</b> Logging</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="logging.html"><a href="logging.html#changing-mlr3-logging-levels"><i class="fa fa-check"></i><b>5.5.1</b> Changing mlr3 logging levels</a></li>
+<li class="chapter" data-level="5.5.2" data-path="logging.html"><a href="logging.html#redirecting-output"><i class="fa fa-check"></i><b>5.5.2</b> Redirecting output</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="extending.html"><a href="extending.html"><i class="fa fa-check"></i><b>6</b> Extending</a><ul>
+<li class="chapter" data-level="6.1" data-path="extending-learners.html"><a href="extending-learners.html"><i class="fa fa-check"></i><b>6.1</b> Adding new Learners</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="extending-learners.html"><a href="extending-learners.html#learner-meta-information"><i class="fa fa-check"></i><b>6.1.1</b> Meta-information</a></li>
+<li class="chapter" data-level="6.1.2" data-path="extending-learners.html"><a href="extending-learners.html#learner-train"><i class="fa fa-check"></i><b>6.1.2</b> Train function</a></li>
+<li class="chapter" data-level="6.1.3" data-path="extending-learners.html"><a href="extending-learners.html#learner-predict"><i class="fa fa-check"></i><b>6.1.3</b> Predict function</a></li>
+<li class="chapter" data-level="6.1.4" data-path="extending-learners.html"><a href="extending-learners.html#final-learner"><i class="fa fa-check"></i><b>6.1.4</b> Final learner</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="extending-pipeops.html"><a href="extending-pipeops.html"><i class="fa fa-check"></i><b>6.2</b> Adding new PipeOps</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="extending-pipeops.html"><a href="extending-pipeops.html#ext-pipeopcopy"><i class="fa fa-check"></i><b>6.2.1</b> General Case Example: <code>PipeOpCopy</code></a><ul>
+<li class="chapter" data-level="6.2.1.1" data-path="extending-pipeops.html"><a href="extending-pipeops.html#first-steps-inheriting-from-pipeop"><i class="fa fa-check"></i><b>6.2.1.1</b> First Steps: Inheriting from <code>PipeOp</code></a></li>
+<li class="chapter" data-level="6.2.1.2" data-path="extending-pipeops.html"><a href="extending-pipeops.html#channel-definitions"><i class="fa fa-check"></i><b>6.2.1.2</b> Channel Definitions</a></li>
+<li class="chapter" data-level="6.2.1.3" data-path="extending-pipeops.html"><a href="extending-pipeops.html#train-and-predict"><i class="fa fa-check"></i><b>6.2.1.3</b> Train and Predict</a></li>
+<li class="chapter" data-level="6.2.1.4" data-path="extending-pipeops.html"><a href="extending-pipeops.html#putting-it-together"><i class="fa fa-check"></i><b>6.2.1.4</b> Putting it Together</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2.2" data-path="extending-pipeops.html"><a href="extending-pipeops.html#ext-pipe-preproc"><i class="fa fa-check"></i><b>6.2.2</b> Special Case: Preprocessing</a><ul>
+<li class="chapter" data-level="6.2.2.1" data-path="extending-pipeops.html"><a href="extending-pipeops.html#example-pipeopdropna"><i class="fa fa-check"></i><b>6.2.2.1</b> Example: <code>PipeOpDropNA</code></a></li>
+<li class="chapter" data-level="6.2.2.2" data-path="extending-pipeops.html"><a href="extending-pipeops.html#example-pipeopscalealways"><i class="fa fa-check"></i><b>6.2.2.2</b> Example: <code>PipeOpScaleAlways</code></a></li>
+</ul></li>
+<li class="chapter" data-level="6.2.3" data-path="extending-pipeops.html"><a href="extending-pipeops.html#special-case-preprocessing-with-simple-train"><i class="fa fa-check"></i><b>6.2.3</b> Special Case: Preprocessing with Simple Train</a><ul>
+<li class="chapter" data-level="6.2.3.1" data-path="extending-pipeops.html"><a href="extending-pipeops.html#example-pipeopdropconst"><i class="fa fa-check"></i><b>6.2.3.1</b> Example: <code>PipeOpDropConst</code></a></li>
+<li class="chapter" data-level="6.2.3.2" data-path="extending-pipeops.html"><a href="extending-pipeops.html#example-pipeopscalealwayssimple"><i class="fa fa-check"></i><b>6.2.3.2</b> Example: <code>PipeOpScaleAlwaysSimple</code></a></li>
+</ul></li>
+<li class="chapter" data-level="6.2.4" data-path="extending-pipeops.html"><a href="extending-pipeops.html#ext-pipe-hyperpars"><i class="fa fa-check"></i><b>6.2.4</b> Hyperparameters</a><ul>
+<li class="chapter" data-level="6.2.4.1" data-path="extending-pipeops.html"><a href="extending-pipeops.html#hyperparameter-example-pipeopscale"><i class="fa fa-check"></i><b>6.2.4.1</b> Hyperparameter Example: <code>PipeOpScale</code></a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="special-tasks.html"><a href="special-tasks.html"><i class="fa fa-check"></i><b>7</b> Special Tasks</a><ul>
+<li class="chapter" data-level="7.1" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>7.1</b> Survival Analysis</a></li>
+<li class="chapter" data-level="7.2" data-path="spatial.html"><a href="spatial.html"><i class="fa fa-check"></i><b>7.2</b> Spatial Analysis</a></li>
+<li class="chapter" data-level="7.3" data-path="ordinal.html"><a href="ordinal.html"><i class="fa fa-check"></i><b>7.3</b> Ordinal Analysis</a></li>
+<li class="chapter" data-level="7.4" data-path="functional.html"><a href="functional.html"><i class="fa fa-check"></i><b>7.4</b> Functional Analysis</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="functional.html"><a href="functional.html#how-to-model-functional-data"><i class="fa fa-check"></i><b>7.4.1</b> How to model functional data?</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="multilabel.html"><a href="multilabel.html"><i class="fa fa-check"></i><b>7.5</b> Multilabel Classification</a></li>
+<li class="chapter" data-level="7.6" data-path="cost-sens.html"><a href="cost-sens.html"><i class="fa fa-check"></i><b>7.6</b> Cost-Sensitive Classification</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="cost-sens.html"><a href="cost-sens.html#a-first-model"><i class="fa fa-check"></i><b>7.6.1</b> A First Model</a></li>
+<li class="chapter" data-level="7.6.2" data-path="cost-sens.html"><a href="cost-sens.html#cost-sensitive-measure"><i class="fa fa-check"></i><b>7.6.2</b> Cost-sensitive Measure</a></li>
+<li class="chapter" data-level="7.6.3" data-path="cost-sens.html"><a href="cost-sens.html#thresholding"><i class="fa fa-check"></i><b>7.6.3</b> Thresholding</a></li>
+<li class="chapter" data-level="7.6.4" data-path="cost-sens.html"><a href="cost-sens.html#threshold-tuning-1"><i class="fa fa-check"></i><b>7.6.4</b> Threshold Tuning</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="interpretation.html"><a href="interpretation.html"><i class="fa fa-check"></i><b>8</b> Model Interpretation</a><ul>
+<li class="chapter" data-level="8.1" data-path="iml.html"><a href="iml.html"><i class="fa fa-check"></i><b>8.1</b> IML</a></li>
+<li class="chapter" data-level="8.2" data-path="dalex.html"><a href="dalex.html"><i class="fa fa-check"></i><b>8.2</b> Dalex</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>9</b> Appendix</a><ul>
+<li class="chapter" data-level="9.1" data-path="list-learners.html"><a href="list-learners.html"><i class="fa fa-check"></i><b>9.1</b> Integrated Learners</a></li>
+<li class="chapter" data-level="9.2" data-path="list-measures.html"><a href="list-measures.html"><i class="fa fa-check"></i><b>9.2</b> Integrated Performance Measures</a></li>
+<li class="chapter" data-level="9.3" data-path="list-filters.html"><a href="list-filters.html"><i class="fa fa-check"></i><b>9.3</b> Integrated Filter Methods</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="list-filters.html"><a href="list-filters.html#fs-filter-list"><i class="fa fa-check"></i><b>9.3.1</b> Standalone filter methods</a></li>
+<li class="chapter" data-level="9.3.2" data-path="list-filters.html"><a href="list-filters.html#fs-filter-embedded-list"><i class="fa fa-check"></i><b>9.3.2</b> Algorithms With Embedded Filter Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="list-pipeops.html"><a href="list-pipeops.html"><i class="fa fa-check"></i><b>9.4</b> Integrated PipeOps</a></li>
+<li class="chapter" data-level="9.5" data-path="compare-frameworks.html"><a href="compare-frameworks.html"><i class="fa fa-check"></i><b>9.5</b> Framework Comparison</a><ul>
+<li class="chapter" data-level="9.5.1" data-path="compare-frameworks.html"><a href="compare-frameworks.html#an-introduction-to-pipeops"><i class="fa fa-check"></i><b>9.5.1</b> An introduction to “PipeOp”s</a><ul>
+<li class="chapter" data-level="9.5.1.1" data-path="compare-frameworks.html"><a href="compare-frameworks.html#a-quick-glance-into-a-pipeop"><i class="fa fa-check"></i><b>9.5.1.1</b> A quick glance into a PipeOp</a></li>
+<li class="chapter" data-level="9.5.1.2" data-path="compare-frameworks.html"><a href="compare-frameworks.html#constructing-the-pipeline"><i class="fa fa-check"></i><b>9.5.1.2</b> Constructing the Pipeline</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5.2" data-path="compare-frameworks.html"><a href="compare-frameworks.html#mlr3pipelines-vs.mlr"><i class="fa fa-check"></i><b>9.5.2</b> mlr3pipelines vs. mlr</a><ul>
+<li class="chapter" data-level="9.5.2.1" data-path="compare-frameworks.html"><a href="compare-frameworks.html#mlr"><i class="fa fa-check"></i><b>9.5.2.1</b> mlr</a></li>
+<li class="chapter" data-level="9.5.2.2" data-path="compare-frameworks.html"><a href="compare-frameworks.html#mlr3pipelines"><i class="fa fa-check"></i><b>9.5.2.2</b> mlr3pipelines</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5.3" data-path="compare-frameworks.html"><a href="compare-frameworks.html#mlr3pipelines-vs.sklearn.pipeline.pipeline"><i class="fa fa-check"></i><b>9.5.3</b> mlr3pipelines vs. sklearn.pipeline.Pipeline</a><ul>
+<li class="chapter" data-level="9.5.3.1" data-path="compare-frameworks.html"><a href="compare-frameworks.html#sklearn"><i class="fa fa-check"></i><b>9.5.3.1</b> sklearn</a></li>
+<li class="chapter" data-level="9.5.3.2" data-path="compare-frameworks.html"><a href="compare-frameworks.html#mlr3pipelines-1"><i class="fa fa-check"></i><b>9.5.3.2</b> mlr3pipelines</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5.4" data-path="compare-frameworks.html"><a href="compare-frameworks.html#mlr3pipelines-vs-recipes"><i class="fa fa-check"></i><b>9.5.4</b> mlr3pipelines vs recipes</a><ul>
+<li class="chapter" data-level="9.5.4.1" data-path="compare-frameworks.html"><a href="compare-frameworks.html#recipes"><i class="fa fa-check"></i><b>9.5.4.1</b> recipes</a></li>
+<li class="chapter" data-level="9.5.4.2" data-path="compare-frameworks.html"><a href="compare-frameworks.html#mlr3pipelines-2"><i class="fa fa-check"></i><b>9.5.4.2</b> mlr3pipelines</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">mlr3 book</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="extending-learners" class="section level2">
+<h2><span class="header-section-number">6.1</span> Adding new Learners</h2>
+<p>Here, we show how to create a custom <a href="https://mlr3.mlr-org.com/reference/LearnerClassif.html"><code>LearnerClassif</code></a> step-by-step.</p>
+<p>Preferably, you checkout our <a href="https://github.com/mlr-org/mlr3learnertemplate">mlr3learnertemplate</a> for new learners.
+Alternatively, here is a template snippet for a new classification learner:</p>
+<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb519-1" data-line-number="1">LearnerClassifYourLearner =<span class="st"> </span>R6<span class="op">::</span><span class="kw">R6Class</span>(<span class="st">&quot;LearnerClassifYourLearner&quot;</span>,</a>
+<a class="sourceLine" id="cb519-2" data-line-number="2">  <span class="dt">inherit =</span> LearnerClassif,</a>
+<a class="sourceLine" id="cb519-3" data-line-number="3">  <span class="dt">public =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb519-4" data-line-number="4">    <span class="dt">initialize =</span> <span class="cf">function</span>(<span class="dt">id =</span> <span class="st">&quot;classif.yourlearner&quot;</span>) {</a>
+<a class="sourceLine" id="cb519-5" data-line-number="5">      super<span class="op">$</span><span class="kw">initialize</span>(</a>
+<a class="sourceLine" id="cb519-6" data-line-number="6">        <span class="dt">id =</span> id,</a>
+<a class="sourceLine" id="cb519-7" data-line-number="7">        <span class="dt">param_set =</span> paradox<span class="op">::</span>ParamSet<span class="op">$</span><span class="kw">new</span>(),</a>
+<a class="sourceLine" id="cb519-8" data-line-number="8">        <span class="dt">predict_types =</span> ,</a>
+<a class="sourceLine" id="cb519-9" data-line-number="9">        <span class="dt">feature_types =</span> ,</a>
+<a class="sourceLine" id="cb519-10" data-line-number="10">        <span class="dt">properties =</span> ,</a>
+<a class="sourceLine" id="cb519-11" data-line-number="11">        <span class="dt">packages =</span> ,</a>
+<a class="sourceLine" id="cb519-12" data-line-number="12">      )</a>
+<a class="sourceLine" id="cb519-13" data-line-number="13">    }</a>
+<a class="sourceLine" id="cb519-14" data-line-number="14">  ),</a>
+<a class="sourceLine" id="cb519-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb519-16" data-line-number="16">  <span class="dt">private =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb519-17" data-line-number="17">    <span class="dt">.train =</span> <span class="cf">function</span>(task) {</a>
+<a class="sourceLine" id="cb519-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb519-19" data-line-number="19">    },</a>
+<a class="sourceLine" id="cb519-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb519-21" data-line-number="21">    <span class="dt">.predict =</span> <span class="cf">function</span>(task) {</a>
+<a class="sourceLine" id="cb519-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb519-23" data-line-number="23">    }</a>
+<a class="sourceLine" id="cb519-24" data-line-number="24">  )</a>
+<a class="sourceLine" id="cb519-25" data-line-number="25">)</a></code></pre></div>
+<p>In the first line of the template, we create a new <a href="https://cran.r-project.org/package=R6">R6</a> class with class <code>&quot;LearnerClassifYourLearner&quot;</code>.
+The next line determines the parent class:
+As we want to create a classification learner, we obviously want to inherit from <a href="https://mlr3.mlr-org.com/reference/LearnerClassif.html"><code>LearnerClassif</code></a>.</p>
+<p>A learner consists of three parts:</p>
+<ol style="list-style-type: decimal">
+<li><a href="extending-learners.html#learner-meta-information">Meta information</a> about the learners</li>
+<li>A private <a href="extending-learners.html#learner-train"><code>.train()</code> function</a> which takes a (filtered) <a href="https://mlr3.mlr-org.com/reference/TaskClassif.html"><code>TaskClassif</code></a> and returns a model</li>
+<li>A private<a href="extending-learners.html#learner-predict"><code>.predict()</code> function</a> which operates on the model in <code>self$model</code> (stored during <code>$train()</code>) and a (differently subsetted) <a href="https://mlr3.mlr-org.com/reference/TaskClassif.html"><code>TaskClassif</code></a> to return a named list of predictions.</li>
+</ol>
+<div id="learner-meta-information" class="section level3">
+<h3><span class="header-section-number">6.1.1</span> Meta-information</h3>
+<p>In the constructor function <code>initialize()</code> the constructor of the super class <a href="https://mlr3.mlr-org.com/reference/LearnerClassif.html"><code>LearnerClassif</code></a> is called with meta information about the learner we want to construct.
+This includes:</p>
+<ul>
+<li><code>id</code>: The id of the new learner.</li>
+<li><code>packages</code>: Set of required packages to run the learner.</li>
+<li><code>param_set</code>: A set of hyperparameters and their description, provided as <a href="https://paradox.mlr-org.com/reference/ParamSet.html"><code>paradox::ParamSet</code></a>.
+It is perfectly fine to add no parameters here for a first draft.
+For each hyperparameter you want to add, you have to select the appropriate class:
+<ul>
+<li><a href="https://paradox.mlr-org.com/reference/ParamLgl.html"><code>paradox::ParamLgl</code></a> for scalar logical hyperparameters.</li>
+<li><a href="https://paradox.mlr-org.com/reference/ParamInt.html"><code>paradox::ParamInt</code></a> for scalar integer hyperparameters.</li>
+<li><a href="https://paradox.mlr-org.com/reference/ParamDbl.html"><code>paradox::ParamDbl</code></a> for scalar numeric hyperparameters.</li>
+<li><a href="https://paradox.mlr-org.com/reference/ParamFct.html"><code>paradox::ParamFct</code></a> for scalar factor hyperparameters (this includes characters).</li>
+<li><a href="https://paradox.mlr-org.com/reference/ParamUty.html"><code>paradox::ParamUty</code></a> for everything else.</li>
+</ul></li>
+<li><code>predict_types</code>: Set of predict types the learner is capable of.
+These differ depending on the type of the learner.
+<ul>
+<li><code>LearnerClassif</code>
+<ul>
+<li><code>response</code>: Only predicts a class label for each observation in the test set.</li>
+<li><code>prob</code>: Also predicts the posterior probability for each class for each observation in the test set.</li>
+</ul></li>
+<li><code>LearnerRegr</code>
+<ul>
+<li><code>response</code>: Only predicts a numeric response for each observation in the test set.</li>
+<li><code>se</code>: Also predicts the standard error for each value of response for each observation in the test set.</li>
+</ul></li>
+</ul></li>
+<li><code>feature_types</code>: Set of feature types the learner can handle.
+See <a href="https://mlr3.mlr-org.com/reference/mlr_reflections.html"><code>mlr_reflections$task_feature_types</code></a> for feature types supported by <code>mlr3</code>.</li>
+<li><code>properties</code>: Set of properties of the learner. Possible properties include:
+<ul>
+<li><code>&quot;twoclass&quot;</code>: The learner works on binary classification problems.</li>
+<li><code>&quot;multiclass&quot;</code>: The learner works on multi-class classification problems.</li>
+<li><code>&quot;missings&quot;</code>: The learner can natively handle missing values.</li>
+<li><code>&quot;weights&quot;</code>: The learner can work on tasks which have observation weights / case weights.</li>
+<li><code>&quot;parallel&quot;</code>: The learner can be parallelized, e.g. via threading.</li>
+<li><code>&quot;importance&quot;</code>: The learner supports extracting importance values for features.
+If this property is set, you must also implement a public method <code>importance()</code> to retrieve the importance values from the model.</li>
+<li><code>&quot;selected_features&quot;</code>: The learner supports extracting the features which where used.
+If this property is set, you must also implement a public method <code>selected_features()</code> to retrieve the set of used features from the model.</li>
+</ul></li>
+</ul>
+<p>For a simplified <a href="https://www.rdocumentation.org/packages/rpart/topics/rpart"><code>rpart::rpart()</code></a>, the initialization could look like this:</p>
+<div class="sourceCode" id="cb520"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb520-1" data-line-number="1">initialize =<span class="st"> </span><span class="cf">function</span>(<span class="dt">id =</span> <span class="st">&quot;classif.rpart&quot;</span>) {</a>
+<a class="sourceLine" id="cb520-2" data-line-number="2">    ps =<span class="st"> </span>paradox<span class="op">::</span>ParamSet<span class="op">$</span><span class="kw">new</span>(<span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb520-3" data-line-number="3">      paradox<span class="op">::</span>ParamDbl<span class="op">$</span><span class="kw">new</span>(<span class="dt">id =</span> <span class="st">&quot;cp&quot;</span>, <span class="dt">default =</span> <span class="fl">0.01</span>, <span class="dt">lower =</span> <span class="dv">0</span>, <span class="dt">upper =</span> <span class="dv">1</span>, <span class="dt">tags =</span> <span class="st">&quot;train&quot;</span>),</a>
+<a class="sourceLine" id="cb520-4" data-line-number="4">      paradox<span class="op">::</span>ParamInt<span class="op">$</span><span class="kw">new</span>(<span class="dt">id =</span> <span class="st">&quot;xval&quot;</span>, <span class="dt">default =</span> 10L, <span class="dt">lower =</span> 0L, <span class="dt">tags =</span> <span class="st">&quot;train&quot;</span>)</a>
+<a class="sourceLine" id="cb520-5" data-line-number="5">    ))</a>
+<a class="sourceLine" id="cb520-6" data-line-number="6">    ps<span class="op">$</span>values =<span class="st"> </span><span class="kw">list</span>(<span class="dt">xval =</span> 0L)</a>
+<a class="sourceLine" id="cb520-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb520-8" data-line-number="8">    super<span class="op">$</span><span class="kw">initialize</span>(</a>
+<a class="sourceLine" id="cb520-9" data-line-number="9">        <span class="dt">id =</span> id,</a>
+<a class="sourceLine" id="cb520-10" data-line-number="10">        <span class="dt">packages =</span> <span class="st">&quot;rpart&quot;</span>,</a>
+<a class="sourceLine" id="cb520-11" data-line-number="11">        <span class="dt">feature_types =</span> <span class="kw">c</span>(<span class="st">&quot;logical&quot;</span>, <span class="st">&quot;integer&quot;</span>, <span class="st">&quot;numeric&quot;</span>, <span class="st">&quot;factor&quot;</span>),</a>
+<a class="sourceLine" id="cb520-12" data-line-number="12">        <span class="dt">predict_types =</span> <span class="kw">c</span>(<span class="st">&quot;response&quot;</span>, <span class="st">&quot;prob&quot;</span>),</a>
+<a class="sourceLine" id="cb520-13" data-line-number="13">        <span class="dt">param_set =</span> ps,</a>
+<a class="sourceLine" id="cb520-14" data-line-number="14">        <span class="dt">properties =</span> <span class="kw">c</span>(<span class="st">&quot;twoclass&quot;</span>, <span class="st">&quot;multiclass&quot;</span>, <span class="st">&quot;weights&quot;</span>, <span class="st">&quot;missings&quot;</span>)</a>
+<a class="sourceLine" id="cb520-15" data-line-number="15">    )</a>
+<a class="sourceLine" id="cb520-16" data-line-number="16">}</a></code></pre></div>
+<p>We only have specified a small subset of the available hyperparameters:</p>
+<ul>
+<li>The complexity <code>&quot;cp&quot;</code> is numeric, its feasible range is <code>[0,1]</code>, it defaults to <code>0.01</code> and the parameter is used during <code>&quot;train&quot;</code>.</li>
+<li>The complexity <code>&quot;xval&quot;</code> is integer, its lower bound <code>0</code>, its default is <code>0</code> and the parameter is also used during <code>&quot;train&quot;</code>.
+Note that we have changed the default here from <code>10</code> to <code>0</code> to save some computation time.
+This is <strong>not</strong> done by setting a different <code>default</code> in <code>ParamInt$new()</code>, but instead by setting the value explicitly.</li>
+</ul>
+</div>
+<div id="learner-train" class="section level3">
+<h3><span class="header-section-number">6.1.2</span> Train function</h3>
+<p>We continue the to adept the template for a <a href="https://www.rdocumentation.org/packages/rpart/topics/rpart"><code>rpart::rpart()</code></a> learner, and now tackle private method <code>.train()</code>.
+The train function takes a <a href="https://mlr3.mlr-org.com/reference/Task.html"><code>Task</code></a> as input and must return an arbitrary model.
+First, we write something down that works completely without <code>mlr3</code>:</p>
+<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb521-1" data-line-number="1">data =<span class="st"> </span>iris</a>
+<a class="sourceLine" id="cb521-2" data-line-number="2">model =<span class="st"> </span>rpart<span class="op">::</span><span class="kw">rpart</span>(Species <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> iris, <span class="dt">xval =</span> <span class="dv">0</span>)</a></code></pre></div>
+<p>In the next step, we replace the data frame <code>data</code> with a <a href="https://mlr3.mlr-org.com/reference/Task.html"><code>Task</code></a>:</p>
+<div class="sourceCode" id="cb522"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb522-1" data-line-number="1">task =<span class="st"> </span><span class="kw">tsk</span>(<span class="st">&quot;iris&quot;</span>)</a>
+<a class="sourceLine" id="cb522-2" data-line-number="2">model =<span class="st"> </span>rpart<span class="op">::</span><span class="kw">rpart</span>(Species <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> task<span class="op">$</span><span class="kw">data</span>(), <span class="dt">xval =</span> <span class="dv">0</span>)</a></code></pre></div>
+<p>The target variable <code>&quot;Species&quot;</code> is still hard-coded and specific to the task.
+This is unnecessary, as the information about the target variable is stored in the task:</p>
+<div class="sourceCode" id="cb523"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb523-1" data-line-number="1">task<span class="op">$</span>target_names</a></code></pre></div>
+<pre><code>## [1] &quot;Species&quot;</code></pre>
+<div class="sourceCode" id="cb525"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb525-1" data-line-number="1">task<span class="op">$</span><span class="kw">formula</span>()</a></code></pre></div>
+<pre><code>## Species ~ .
+## NULL</code></pre>
+<p>We can adapt our code accordingly:</p>
+<div class="sourceCode" id="cb527"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb527-1" data-line-number="1">rpart<span class="op">::</span><span class="kw">rpart</span>(task<span class="op">$</span><span class="kw">formula</span>(), <span class="dt">data =</span> task<span class="op">$</span><span class="kw">data</span>(), <span class="dt">xval =</span> <span class="dv">0</span>)</a></code></pre></div>
+<pre><code>## n= 150 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+## 1) root 150 100 setosa (0.33333 0.33333 0.33333)  
+##   2) Petal.Length&lt; 2.45 50   0 setosa (1.00000 0.00000 0.00000) *
+##   3) Petal.Length&gt;=2.45 100  50 versicolor (0.00000 0.50000 0.50000)  
+##     6) Petal.Width&lt; 1.75 54   5 versicolor (0.00000 0.90741 0.09259) *
+##     7) Petal.Width&gt;=1.75 46   1 virginica (0.00000 0.02174 0.97826) *</code></pre>
+<p>The last thing missing is the handling of hyperparameters.
+Instead of the hard-coded <code>xval</code>, we query the hyperparameter settings from the <a href="https://mlr3.mlr-org.com/reference/Learner.html"><code>Learner</code></a> itself.</p>
+<p>To illustrate this, we quickly construct the tree learner from the <code>mlr3</code> package, and use the method <code>get_value()</code> from the <a href="https://paradox.mlr-org.com/reference/ParamSet.html"><code>ParamSet</code></a> to retrieve all set hyperparameters with tag <code>&quot;train&quot;</code>.</p>
+<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb529-1" data-line-number="1">self =<span class="st"> </span><span class="kw">lrn</span>(<span class="st">&quot;classif.rpart&quot;</span>)</a>
+<a class="sourceLine" id="cb529-2" data-line-number="2">self<span class="op">$</span>param_set<span class="op">$</span><span class="kw">get_values</span>(<span class="dt">tags =</span> <span class="st">&quot;train&quot;</span>)</a></code></pre></div>
+<pre><code>## $xval
+## [1] 0</code></pre>
+<p>To pass all hyperparameters down to the model fitting function, we recommend to use either <a href="https://www.rdocumentation.org/packages/base/topics/do.call"><code>do.call</code></a> or the function <a href="https://mlr3misc.mlr-org.com/reference/invoke.html"><code>mlr3misc::invoke()</code></a>.</p>
+<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb531-1" data-line-number="1">pars =<span class="st"> </span>self<span class="op">$</span>param_set<span class="op">$</span><span class="kw">get_values</span>(<span class="dt">tags =</span> <span class="st">&quot;train&quot;</span>)</a>
+<a class="sourceLine" id="cb531-2" data-line-number="2">mlr3misc<span class="op">::</span><span class="kw">invoke</span>(rpart<span class="op">::</span>rpart, task<span class="op">$</span><span class="kw">formula</span>(),</a>
+<a class="sourceLine" id="cb531-3" data-line-number="3">    <span class="dt">data =</span> task<span class="op">$</span><span class="kw">data</span>(), <span class="dt">.args =</span> pars)</a></code></pre></div>
+<pre><code>## n= 150 
+## 
+## node), split, n, loss, yval, (yprob)
+##       * denotes terminal node
+## 
+## 1) root 150 100 setosa (0.33333 0.33333 0.33333)  
+##   2) Petal.Length&lt; 2.45 50   0 setosa (1.00000 0.00000 0.00000) *
+##   3) Petal.Length&gt;=2.45 100  50 versicolor (0.00000 0.50000 0.50000)  
+##     6) Petal.Width&lt; 1.75 54   5 versicolor (0.00000 0.90741 0.09259) *
+##     7) Petal.Width&gt;=1.75 46   1 virginica (0.00000 0.02174 0.97826) *</code></pre>
+<p>In the final learner, <code>self</code> will of course reference the learner itself.
+In the last step, we wrap everything in a function.</p>
+<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb533-1" data-line-number="1">.train =<span class="st"> </span><span class="cf">function</span>(task) {</a>
+<a class="sourceLine" id="cb533-2" data-line-number="2">  pars =<span class="st"> </span>self<span class="op">$</span>param_set<span class="op">$</span><span class="kw">get_values</span>(<span class="dt">tags =</span> <span class="st">&quot;train&quot;</span>)</a>
+<a class="sourceLine" id="cb533-3" data-line-number="3">  mlr3misc<span class="op">::</span><span class="kw">invoke</span>(rpart<span class="op">::</span>rpart, task<span class="op">$</span><span class="kw">formula</span>(),</a>
+<a class="sourceLine" id="cb533-4" data-line-number="4">    <span class="dt">data =</span> task<span class="op">$</span><span class="kw">data</span>(), <span class="dt">.args =</span> pars)</a>
+<a class="sourceLine" id="cb533-5" data-line-number="5">}</a></code></pre></div>
+</div>
+<div id="learner-predict" class="section level3">
+<h3><span class="header-section-number">6.1.3</span> Predict function</h3>
+<p>The private predict function <code>.predict()</code> also operates on a <a href="https://mlr3.mlr-org.com/reference/Task.html"><code>Task</code></a> as well as on the model stored during <code>train()</code> in <code>self$model</code>.
+The return value is a <a href="https://mlr3.mlr-org.com/reference/Prediction.html"><code>Prediction</code></a> object.
+We proceed analogously to the section on the train function.
+We start with a version without any <code>mlr3</code> objects and continue to replace objects until we have reached the desired interface:</p>
+<div class="sourceCode" id="cb534"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb534-1" data-line-number="1"><span class="co"># inputs:</span></a>
+<a class="sourceLine" id="cb534-2" data-line-number="2">task =<span class="st"> </span><span class="kw">tsk</span>(<span class="st">&quot;iris&quot;</span>)</a>
+<a class="sourceLine" id="cb534-3" data-line-number="3">self =<span class="st"> </span><span class="kw">list</span>(<span class="dt">model =</span> rpart<span class="op">::</span><span class="kw">rpart</span>(task<span class="op">$</span><span class="kw">formula</span>(), <span class="dt">data =</span> task<span class="op">$</span><span class="kw">data</span>()))</a>
+<a class="sourceLine" id="cb534-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb534-5" data-line-number="5">data =<span class="st"> </span>iris</a>
+<a class="sourceLine" id="cb534-6" data-line-number="6">response =<span class="st"> </span><span class="kw">predict</span>(self<span class="op">$</span>model, <span class="dt">newdata =</span> data, <span class="dt">type =</span> <span class="st">&quot;class&quot;</span>)</a>
+<a class="sourceLine" id="cb534-7" data-line-number="7">prob =<span class="st"> </span><span class="kw">predict</span>(self<span class="op">$</span>model, <span class="dt">newdata =</span> data, <span class="dt">type =</span> <span class="st">&quot;prob&quot;</span>)</a></code></pre></div>
+<p>The <a href="https://www.rdocumentation.org/packages/rpart/topics/predict.rpart"><code>rpart::predict.rpart()</code></a> function predicts class labels if argument <code>type</code> is set to to <code>&quot;class&quot;</code>, and class probabilities if set to <code>&quot;prob&quot;</code>.</p>
+<p>Next, we transition from <code>data</code> to a <code>task</code> again and construct a proper <a href="https://mlr3.mlr-org.com/reference/PredictionClassif.html"><code>PredictionClassif</code></a> object to return.
+Additionally, as we do not want to run the prediction twice, we differentiate what type of prediction is requested by querying the set predict type of the learner.
+The complete internal predict function looks like this:</p>
+<div class="sourceCode" id="cb535"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb535-1" data-line-number="1">.predict =<span class="st"> </span><span class="cf">function</span>(task) {</a>
+<a class="sourceLine" id="cb535-2" data-line-number="2">  self<span class="op">$</span>predict_type =<span class="st"> &quot;response&quot;</span></a>
+<a class="sourceLine" id="cb535-3" data-line-number="3">  response =<span class="st"> </span>prob =<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb535-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb535-5" data-line-number="5">  <span class="cf">if</span> (self<span class="op">$</span>predict_type <span class="op">==</span><span class="st"> &quot;response&quot;</span>) {</a>
+<a class="sourceLine" id="cb535-6" data-line-number="6">    response =<span class="st"> </span><span class="kw">predict</span>(self<span class="op">$</span>model, <span class="dt">newdata =</span> task<span class="op">$</span><span class="kw">data</span>(), <span class="dt">type =</span> <span class="st">&quot;class&quot;</span>)</a>
+<a class="sourceLine" id="cb535-7" data-line-number="7">  } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb535-8" data-line-number="8">    prob =<span class="st"> </span><span class="kw">predict</span>(self<span class="op">$</span>model, <span class="dt">newdata =</span> task<span class="op">$</span><span class="kw">data</span>(), <span class="dt">type =</span> <span class="st">&quot;prob&quot;</span>)</a>
+<a class="sourceLine" id="cb535-9" data-line-number="9">  }</a>
+<a class="sourceLine" id="cb535-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb535-11" data-line-number="11">  PredictionClassif<span class="op">$</span><span class="kw">new</span>(task, <span class="dt">response =</span> response, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb535-12" data-line-number="12">}</a></code></pre></div>
+<p>Note that if the learner would need to handle hyperparameters during the predict step, we would proceed analogously to the <code>train()</code> step and use <code>self$params(&quot;predict&quot;)</code> in combination with <a href="https://mlr3misc.mlr-org.com/reference/invoke.html"><code>mlr3misc::invoke()</code></a>.</p>
+<p>Also note that you cannot rely on the column order of the data returned by <code>task$data()</code>, i.e. the order of columns may be different from the order of the columns during <code>$train()</code>.
+You have to make sure that your learner accesses columns by name, not by position (like some algorithms with a matrix interface do).
+You may have to restore the order manually here, see <a href="https://github.com/mlr-org/mlr3learners/blob/master/R/LearnerClassifSVM.R">“classif.svm”</a> for an example.</p>
+</div>
+<div id="final-learner" class="section level3">
+<h3><span class="header-section-number">6.1.4</span> Final learner</h3>
+<div class="sourceCode" id="cb536"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb536-1" data-line-number="1">LearnerClassifYourRpart =<span class="st"> </span>R6<span class="op">::</span><span class="kw">R6Class</span>(<span class="st">&quot;LearnerClassifYourRpart&quot;</span>,</a>
+<a class="sourceLine" id="cb536-2" data-line-number="2">  <span class="dt">inherit =</span> LearnerClassif,</a>
+<a class="sourceLine" id="cb536-3" data-line-number="3">  <span class="dt">public =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb536-4" data-line-number="4">    <span class="dt">initialize =</span> <span class="cf">function</span>(<span class="dt">id =</span> <span class="st">&quot;classif.rpart&quot;</span>) {</a>
+<a class="sourceLine" id="cb536-5" data-line-number="5">      ps =<span class="st"> </span>paradox<span class="op">::</span>ParamSet<span class="op">$</span><span class="kw">new</span>(<span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb536-6" data-line-number="6">        paradox<span class="op">::</span>ParamDbl<span class="op">$</span><span class="kw">new</span>(<span class="dt">id =</span> <span class="st">&quot;cp&quot;</span>, <span class="dt">default =</span> <span class="fl">0.01</span>, <span class="dt">lower =</span> <span class="dv">0</span>, <span class="dt">upper =</span> <span class="dv">1</span>, <span class="dt">tags =</span> <span class="st">&quot;train&quot;</span>),</a>
+<a class="sourceLine" id="cb536-7" data-line-number="7">        paradox<span class="op">::</span>ParamInt<span class="op">$</span><span class="kw">new</span>(<span class="dt">id =</span> <span class="st">&quot;xval&quot;</span>, <span class="dt">default =</span> 0L, <span class="dt">lower =</span> 0L, <span class="dt">tags =</span> <span class="st">&quot;train&quot;</span>)</a>
+<a class="sourceLine" id="cb536-8" data-line-number="8">      ))</a>
+<a class="sourceLine" id="cb536-9" data-line-number="9">      ps<span class="op">$</span>values =<span class="st"> </span><span class="kw">list</span>(<span class="dt">xval =</span> 0L)</a>
+<a class="sourceLine" id="cb536-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb536-11" data-line-number="11">      super<span class="op">$</span><span class="kw">initialize</span>(</a>
+<a class="sourceLine" id="cb536-12" data-line-number="12">        <span class="dt">id =</span> id,</a>
+<a class="sourceLine" id="cb536-13" data-line-number="13">        <span class="dt">packages =</span> <span class="st">&quot;rpart&quot;</span>,</a>
+<a class="sourceLine" id="cb536-14" data-line-number="14">        <span class="dt">feature_types =</span> <span class="kw">c</span>(<span class="st">&quot;logical&quot;</span>, <span class="st">&quot;integer&quot;</span>, <span class="st">&quot;numeric&quot;</span>, <span class="st">&quot;factor&quot;</span>),</a>
+<a class="sourceLine" id="cb536-15" data-line-number="15">        <span class="dt">predict_types =</span> <span class="kw">c</span>(<span class="st">&quot;response&quot;</span>, <span class="st">&quot;prob&quot;</span>),</a>
+<a class="sourceLine" id="cb536-16" data-line-number="16">        <span class="dt">param_set =</span> ps,</a>
+<a class="sourceLine" id="cb536-17" data-line-number="17">        <span class="dt">properties =</span> <span class="kw">c</span>(<span class="st">&quot;twoclass&quot;</span>, <span class="st">&quot;multiclass&quot;</span>, <span class="st">&quot;weights&quot;</span>, <span class="st">&quot;missings&quot;</span>)</a>
+<a class="sourceLine" id="cb536-18" data-line-number="18">      )</a>
+<a class="sourceLine" id="cb536-19" data-line-number="19">    }</a>
+<a class="sourceLine" id="cb536-20" data-line-number="20">  ),</a>
+<a class="sourceLine" id="cb536-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb536-22" data-line-number="22">  <span class="dt">private =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb536-23" data-line-number="23">    <span class="dt">.train =</span> <span class="cf">function</span>(task) {</a>
+<a class="sourceLine" id="cb536-24" data-line-number="24">      pars =<span class="st"> </span>self<span class="op">$</span>param_set<span class="op">$</span><span class="kw">get_values</span>(<span class="dt">tag =</span> <span class="st">&quot;train&quot;</span>)</a>
+<a class="sourceLine" id="cb536-25" data-line-number="25">      mlr3misc<span class="op">::</span><span class="kw">invoke</span>(rpart<span class="op">::</span>rpart, task<span class="op">$</span><span class="kw">formula</span>(), <span class="dt">data =</span> task<span class="op">$</span><span class="kw">data</span>(), <span class="dt">.args =</span> pars)</a>
+<a class="sourceLine" id="cb536-26" data-line-number="26">    },</a>
+<a class="sourceLine" id="cb536-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb536-28" data-line-number="28">    <span class="dt">.predict =</span> <span class="cf">function</span>(task) {</a>
+<a class="sourceLine" id="cb536-29" data-line-number="29">      self<span class="op">$</span>predict_type =<span class="st"> &quot;response&quot;</span></a>
+<a class="sourceLine" id="cb536-30" data-line-number="30">      response =<span class="st"> </span>prob =<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb536-31" data-line-number="31"></a>
+<a class="sourceLine" id="cb536-32" data-line-number="32">      <span class="cf">if</span> (self<span class="op">$</span>predict_type <span class="op">==</span><span class="st"> &quot;response&quot;</span>) {</a>
+<a class="sourceLine" id="cb536-33" data-line-number="33">        response =<span class="st"> </span><span class="kw">predict</span>(self<span class="op">$</span>model, <span class="dt">newdata =</span> task<span class="op">$</span><span class="kw">data</span>(), <span class="dt">type =</span> <span class="st">&quot;class&quot;</span>)</a>
+<a class="sourceLine" id="cb536-34" data-line-number="34">      } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb536-35" data-line-number="35">        prob =<span class="st"> </span><span class="kw">predict</span>(self<span class="op">$</span>model, <span class="dt">newdata =</span> task<span class="op">$</span><span class="kw">data</span>(), <span class="dt">type =</span> <span class="st">&quot;prob&quot;</span>)</a>
+<a class="sourceLine" id="cb536-36" data-line-number="36">      }</a>
+<a class="sourceLine" id="cb536-37" data-line-number="37">      PredictionClassif<span class="op">$</span><span class="kw">new</span>(task, <span class="dt">response =</span> response, <span class="dt">prob =</span> prob)</a>
+<a class="sourceLine" id="cb536-38" data-line-number="38">    }</a>
+<a class="sourceLine" id="cb536-39" data-line-number="39">  )</a>
+<a class="sourceLine" id="cb536-40" data-line-number="40">)</a>
+<a class="sourceLine" id="cb536-41" data-line-number="41"></a>
+<a class="sourceLine" id="cb536-42" data-line-number="42">lrn =<span class="st"> </span>LearnerClassifYourRpart<span class="op">$</span><span class="kw">new</span>()</a>
+<a class="sourceLine" id="cb536-43" data-line-number="43"><span class="kw">print</span>(lrn)</a></code></pre></div>
+<pre><code>## &lt;LearnerClassifYourRpart:classif.rpart&gt;
+## * Model: -
+## * Parameters: xval=0
+## * Packages: rpart
+## * Predict Type: response
+## * Feature types: logical, integer, numeric, factor
+## * Properties: missings, multiclass, twoclass, weights</code></pre>
+<p>To run some basic tests:</p>
+<div class="sourceCode" id="cb538"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb538-1" data-line-number="1">task =<span class="st"> </span><span class="kw">tsk</span>(<span class="st">&quot;iris&quot;</span>)</a>
+<a class="sourceLine" id="cb538-2" data-line-number="2">lrn<span class="op">$</span><span class="kw">train</span>(task)</a>
+<a class="sourceLine" id="cb538-3" data-line-number="3">p =<span class="st"> </span>lrn<span class="op">$</span><span class="kw">predict</span>(task)</a>
+<a class="sourceLine" id="cb538-4" data-line-number="4">p<span class="op">$</span>confusion</a></code></pre></div>
+<pre><code>##             truth
+## response     setosa versicolor virginica
+##   setosa         50          0         0
+##   versicolor      0         49         5
+##   virginica       0          1        45</code></pre>
+<p>To run a bunch of automatic tests, you may source some auxiliary scripts from the unit tests of <code>mlr3</code>:</p>
+<div class="sourceCode" id="cb540"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb540-1" data-line-number="1">helper =<span class="st"> </span><span class="kw">list.files</span>(<span class="kw">system.file</span>(<span class="st">&quot;testthat&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;mlr3&quot;</span>), <span class="dt">pattern =</span> <span class="st">&quot;^helper.*</span><span class="ch">\\</span><span class="st">.[rR]&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb540-2" data-line-number="2">ok =<span class="st"> </span><span class="kw">lapply</span>(helper, source)</a>
+<a class="sourceLine" id="cb540-3" data-line-number="3"><span class="kw">stopifnot</span>(<span class="kw">run_autotest</span>(lrn))</a></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="extending.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="extending-pipeops.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/mlr-org/mlr3book/edit/master/bookdown/06-extending-learners.Rmd",
+"text": "Edit this chapter"
+},
+"history": {
+"link": "https://github.com/mlr-org/mlr3book/commits/master/06-extending-learners.Rmd",
+"text": "Edit history"
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": [["mlr3book.pdf", "PDF"]],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
